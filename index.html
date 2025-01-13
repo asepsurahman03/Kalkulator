@@ -143,42 +143,45 @@
 <script>
     const form = document.getElementById('booking-form');
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Hentikan pengiriman form
+form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Hentikan pengiriman form
 
-        // Ambil data dari input
-        const name = document.getElementById('name').value;
-        const phone = document.getElementById('phone').value;
-        const service = document.getElementById('service').value;
-        const subService = document.getElementById('sub-service').value || '-';
-        const date = document.getElementById('date').value;
-        const endTime = document.getElementById('end-time').value;
-        const dpOption = document.getElementById('dp-option').value;
-        const paymentMethod = document.getElementById('payment-method').value;
+    // Ambil data dari input
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const service = document.getElementById('service').value;
+    const subService = document.getElementById('sub-service').value || '-';
+    const date = document.getElementById('date').value;
+    const endTime = document.getElementById('end-time').value;
+    const dpOption = document.getElementById('dp-option').value === 'with-dp' ? 'Pakai DP' : 'Tanpa DP';
+    const paymentMethod = document.getElementById('payment-method').value;
 
-        // Format pesan untuk WhatsApp
-        const message = `
-            *Booking Studio Photobook*
-            Halo, saya ingin memesan layanan studio.
-            
-            *Detail Booking:*
-            - Nama: ${name}
-            - Nomor Telepon: ${phone}
-            - Layanan: ${service}
-            - Detail Layanan: ${subService}
-            - Tanggal & Waktu Pemotretan: ${date}
-            - Selesai Pemotretan: ${endTime}
-            - DP Booking: ${dpOption === 'with-dp' ? 'Pakai DP' : 'Tanpa DP'}
-            - Metode Pembayaran: ${paymentMethod}
-        `.trim();
+    // Format pesan untuk WhatsApp
+    const message = `
+🎉 *Booking Studio Photobook* 📸  
+Halo, saya ingin memesan layanan studio. Berikut detail pemesanan saya:  
 
-        // Encode pesan untuk URL WhatsApp
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappURL = `https://wa.me/6285659838977?text=${encodedMessage}`;
+✨ *Detail Booking*  
+👤 Nama: _${name}_  
+📞 Nomor Telepon: _${phone}_  
+💼 Layanan: *${service}*  
+📋 Detail Layanan: _${subService}_  
+🗓️ Tanggal Pemotretan: _${date}_  
+⏰ Selesai Pemotretan: _${endTime}_  
+💳 DP Booking: *${dpOption}*  
+💰 Metode Pembayaran: _${paymentMethod}_  
 
-        // Redirect ke WhatsApp
-        window.location.href = whatsappURL;
-    });
+📢 Mohon konfirmasinya ya! Terima kasih banyak 😊🙏
+    `.trim();
+
+    // Encode pesan untuk URL WhatsApp
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/${phone}?text=${encodedMessage}`;
+
+    // Redirect ke WhatsApp
+    window.location.href = whatsappURL;
+});
+
 </script>
 
 </body>
