@@ -1,53 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Canggih</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Booking Studio Photobook</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="calculator-container">
-        <div class="calculator">
-            <!-- Penjelasan tentang kalkulator -->
-            <div class="header">
-                <h2>Kalkulator</h2>
-                <p class="description">Kalkulator canggih dengan berbagai fungsi perhitungan matematika.</p>
+    <div class="d-flex justify-content-center align-items-center vh-100 bg-dark bg-opacity-50">
+        <div class="bg-white rounded p-4 shadow-lg w-100" style="max-width: 500px;">
+            <div class="text-center mb-3">
+                <h2 class="h4 fw-bold">Formulir Booking</h2>
+                <p class="text-muted">Isi formulir berikut untuk memesan tempat studio kami</p>
             </div>
-            <input type="text" id="display" class="display" disabled />
-            <div class="buttons">
-                <button class="btn func" onclick="clearDisplay()">C</button>
-                <button class="btn" onclick="appendToDisplay('7')">7</button>
-                <button class="btn" onclick="appendToDisplay('8')">8</button>
-                <button class="btn" onclick="appendToDisplay('9')">9</button>
-                <button class="btn func" onclick="appendToDisplay('/')">/</button>
-
-                <button class="btn" onclick="appendToDisplay('4')">4</button>
-                <button class="btn" onclick="appendToDisplay('5')">5</button>
-                <button class="btn" onclick="appendToDisplay('6')">6</button>
-                <!-- Ubah simbol pada tombol dari * ke x -->
-                <button class="btn func" onclick="appendToDisplay('*')">x</button>
-
-                <button class="btn" onclick="appendToDisplay('1')">1</button>
-                <button class="btn" onclick="appendToDisplay('2')">2</button>
-                <button class="btn" onclick="appendToDisplay('3')">3</button>
-                <button class="btn func" onclick="appendToDisplay('-')">-</button>
-
-                <button class="btn" onclick="appendToDisplay('0')">0</button>
-                <button class="btn" onclick="appendToDisplay('.')">.</button>
-                <button class="btn func" onclick="calculate()">=</button>
-                <button class="btn func" onclick="appendToDisplay('+')">+</button>
-
-                <button class="btn func" onclick="appendToDisplay('sqrt(')">√</button>
-                <button class="btn func" onclick="appendToDisplay('**2')">x²</button>
-                <button class="btn func" onclick="appendToDisplay('%')">%</button>
-                <button class="btn func" onclick="appendToDisplay('(')">(</button>
-
-                <button class="btn func" onclick="appendToDisplay(')')">)</button>
-            </div>
+            <form id="booking-form" action="booking.php" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Masukkan nama Anda" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Nomor Telepon</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="Masukkan nomor telepon Anda" required>
+                </div>
+                <div class="mb-3">
+                    <label for="service" class="form-label">Layanan yang Dipilih</label>
+                    <select id="service" name="service" class="form-select" required>
+                        <option value="" disabled selected>Pilih layanan</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Paket Wedding">Paket Wedding</option>
+                        <option value="Paket Group">Paket Group</option>
+                        <option value="Graduation">Graduation</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="sub-service-container" style="display: none;">
+                    <label for="sub-service" class="form-label">Detail Layanan</label>
+                    <select id="sub-service" name="sub-service" class="form-select">
+                        <!-- Options will be dynamically added here -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Tanggal dan Waktu Pemotretan</label>
+                    <input type="datetime-local" id="date" name="date" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="end-time" class="form-label">Selesai Pemotretan</label>
+                    <input type="text" id="end-time" name="end-time" class="form-control" placeholder="Waktu selesai akan otomatis dihitung" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="dp-option" class="form-label">Down Payment (DP) Booking</label>
+                    <select id="dp-option" name="dp-option" class="form-select">
+                        <option value="no-dp" selected>Nanti di lokasi</option>
+                        <option value="with-dp">Pakai DP</option>
+                    </select>
+                    <small id="dp-description" class="text-muted" style="display: none;">
+                        Kelebihan menggunakan DP yaitu Anda akan jadi pelanggan prioritas antrian dibandingkan dengan tanpa DP.
+                    </small>
+                </div>
+                <div class="mb-3">
+                    <label for="payment-method" class="form-label">Metode Pembayaran</label>
+                    <select id="payment-method" name="payment-method" class="form-select" required>
+                        <option value="" disabled selected>Pilih metode pembayaran</option>
+                        <option value="DANA">DANA - Asep Surahman Sulaeman (085659838977)</option>
+                        <option value="BRI">BRI - Asep Surahman Sulaeman (1234567890)</option>
+                        <option value="Mandiri">Mandiri - Asep Surahman Sulaeman (0987654321)</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="index.php" class="btn btn-danger w-50 me-2">Batal</a>
+                    <button type="submit" class="btn btn-primary w-50 ms-2">Submit Booking</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        const serviceDropdown = document.getElementById('service');
+        const subServiceContainer = document.getElementById('sub-service-container');
+        const subServiceDropdown = document.getElementById('sub-service');
+        const dateInput = document.getElementById('date');
+        const endTimeInput = document.getElementById('end-time');
+        const dpOption = document.getElementById('dp-option');
+        const dpDescription = document.getElementById('dp-description');
+
+        // Sub-service options based on main service
+        const subServiceOptions = {
+            "Personal": ["Foto Personal", "Pas Foto"],
+            "Paket Wedding": ["Paket Prawedding Indoor", "Paket Prawedding Outdoor", "Paket Wedding"],
+            "Paket Group": ["Paket Couple", "Paket Group", "Paket Family"],
+            "Graduation": ["Paket Graduation"]
+        };
+
+        // Event listener to update sub-service options dynamically
+        serviceDropdown.addEventListener('change', function() {
+            const selectedService = this.value;
+
+            // Clear previous sub-service options
+            subServiceDropdown.innerHTML = '';
+
+            if (subServiceOptions[selectedService]) {
+                subServiceOptions[selectedService].forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    subServiceDropdown.appendChild(opt);
+                });
+
+                // Show sub-service container
+                subServiceContainer.style.display = 'block';
+            } else {
+                // Hide sub-service container if no options are available
+                subServiceContainer.style.display = 'none';
+            }
+        });
+
+        // Calculate end time based on booking time
+        dateInput.addEventListener('input', function() {
+            const startTime = new Date(this.value);
+
+            if (!isNaN(startTime)) {
+                const endTime = new Date(startTime.getTime() + 30 * 60000); // Add 30 minutes
+                const formattedEndTime = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                endTimeInput.value = formattedEndTime;
+            } else {
+                endTimeInput.value = '';
+            }
+        });
+
+        // Show or hide DP description
+        dpOption.addEventListener('change', function() {
+            if (this.value === 'with-dp') {
+                dpDescription.style.display = 'block';
+            } else {
+                dpDescription.style.display = 'none';
+            }
+        });
+    </script>
+
+<script>
+    const form = document.getElementById('booking-form');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Hentikan pengiriman form
+
+        // Ambil data dari input
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const service = document.getElementById('service').value;
+        const subService = document.getElementById('sub-service').value || '-';
+        const date = document.getElementById('date').value;
+        const endTime = document.getElementById('end-time').value;
+        const dpOption = document.getElementById('dp-option').value;
+        const paymentMethod = document.getElementById('payment-method').value;
+
+        // Format pesan untuk WhatsApp
+        const message = `
+            *Booking Studio Photobook*
+            Halo, saya ingin memesan layanan studio.
+            
+            *Detail Booking:*
+            - Nama: ${name}
+            - Nomor Telepon: ${phone}
+            - Layanan: ${service}
+            - Detail Layanan: ${subService}
+            - Tanggal & Waktu Pemotretan: ${date}
+            - Selesai Pemotretan: ${endTime}
+            - DP Booking: ${dpOption === 'with-dp' ? 'Pakai DP' : 'Tanpa DP'}
+            - Metode Pembayaran: ${paymentMethod}
+        `.trim();
+
+        // Encode pesan untuk URL WhatsApp
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappURL = `https://wa.me/${phone}?text=${encodedMessage}`;
+
+        // Redirect ke WhatsApp
+        window.location.href = whatsappURL;
+    });
+</script>
+
 </body>
 </html>
