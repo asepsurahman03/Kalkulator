@@ -141,7 +141,7 @@
     </script>
 
 <script>
-    const form = document.getElementById('booking-form');
+   const form = document.getElementById('booking-form');
 
 form.addEventListener('submit', function (event) {
     event.preventDefault(); // Hentikan pengiriman form
@@ -156,6 +156,16 @@ form.addEventListener('submit', function (event) {
     const dpOption = document.getElementById('dp-option').value === 'with-dp' ? 'Pakai DP' : 'Tanpa DP';
     const paymentMethod = document.getElementById('payment-method').value;
 
+    // Detail metode pembayaran berdasarkan pilihan
+    let paymentDetail = '';
+    if (paymentMethod === 'DANA') {
+        paymentDetail = '📱 *DANA*: 085659838977 (Asep Surahman Sulaeman)';
+    } else if (paymentMethod === 'BRI') {
+        paymentDetail = '🏦 *BRI*: 1234567890 (Asep Surahman Sulaeman)';
+    } else if (paymentMethod === 'Mandiri') {
+        paymentDetail = '🏦 *Mandiri*: 0987654321 (Asep Surahman Sulaeman)';
+    }
+
     // Format pesan untuk WhatsApp
     const message = `
 🎉 *Booking Studio Photobook* 📸  
@@ -169,9 +179,12 @@ Halo, saya ingin memesan layanan studio. Berikut detail pemesanan saya:
 🗓️ Tanggal Pemotretan: _${date}_  
 ⏰ Selesai Pemotretan: _${endTime}_  
 💳 DP Booking: *${dpOption}*  
-💰 Metode Pembayaran: _${paymentMethod}_  
 
-📢 Mohon konfirmasinya ya! Terima kasih banyak 😊🙏
+💰 *Metode Pembayaran*  
+${paymentDetail}
+
+📢 Setelah pembayaran, mohon kirimkan *bukti pembayaran* ke WhatsApp kami di nomor 📞 *+6285659838977*.  
+Terima kasih banyak atas kepercayaan Anda! 😊🙏
     `.trim();
 
     // Encode pesan untuk URL WhatsApp
@@ -181,6 +194,7 @@ Halo, saya ingin memesan layanan studio. Berikut detail pemesanan saya:
     // Redirect ke WhatsApp
     window.location.href = whatsappURL;
 });
+
 
 </script>
 
