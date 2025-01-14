@@ -66,6 +66,11 @@
                         <option value="Mandiri">Mandiri - Asep Surahman Sulaeman (0987654321)</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="total-price" class="form-label">Total Harga</label>
+                    <input type="text" id="total-price" name="total-price" class="form-control" placeholder="Total harga akan otomatis dihitung" readonly>
+                </div>
+                
                 <div class="d-flex justify-content-between">
                     <a href="index.php" class="btn btn-danger w-50 me-2">Batal</a>
                     <button type="submit" class="btn btn-primary w-50 ms-2">Submit Booking</button>
@@ -90,7 +95,7 @@
         const subServiceOptions = {
             "Personal": ["Foto Personal", "Pas Foto"],
             "Paket Wedding": ["Paket Prawedding Indoor", "Paket Prawedding Outdoor", "Paket Wedding"],
-            "Paket Group": ["Paket Couple", "Paket Group", "Paket Family"],
+            "Paket Group": ["Paket Couple", "Bestie", "Paket Group", "Paket Family"],
             "Graduation": ["Paket Graduation"]
         };
 
@@ -140,6 +145,41 @@
         });
     </script>
 
+<script>// Harga per layanan
+    const pricing = {
+        "Foto Personal": 20000, // 20 ribu
+        "Bestie": 30000,        // 30 ribu
+        "Paket Group": 10000,   // 10 ribu per orang
+        "Paket Family": 50000   // 50 ribu
+    };
+    
+    // Event listener untuk menghitung harga total
+    subServiceDropdown.addEventListener('change', function () {
+        const selectedSubService = this.value;
+    
+        let totalPrice = 0;
+    
+        if (selectedSubService === "Foto Personal") {
+            totalPrice = pricing["Foto Personal"];
+        } else if (selectedSubService === "Bestie") {
+            totalPrice = pricing["Bestie"];
+        } else if (selectedSubService === "Paket Group") {
+            const groupSize = prompt("Masukkan jumlah orang dalam grup (minimal 3 orang):");
+            if (groupSize >= 3) {
+                totalPrice = groupSize * pricing["Paket Group"];
+            } else {
+                alert("Jumlah orang dalam grup harus minimal 3.");
+            }
+        } else if (selectedSubService === "Paket Family") {
+            totalPrice = pricing["Paket Family"];
+        }
+    
+        // Tampilkan harga di input total price
+        document.getElementById('total-price').value = `Rp ${totalPrice.toLocaleString()}`;
+    });
+    </script>
+
+    
 <script>
    const form = document.getElementById('booking-form');
 
@@ -155,6 +195,7 @@ form.addEventListener('submit', function (event) {
     const endTime = document.getElementById('end-time').value;
     const dpOption = document.getElementById('dp-option').value === 'with-dp' ? 'Pakai DP' : 'Tanpa DP';
     const paymentMethod = document.getElementById('payment-method').value;
+    const totalPrice = document.getElementById('total-price').value || 'Rp 0'; // Ambil total harga
 
     // Detail metode pembayaran berdasarkan pilihan
     let paymentDetail = '';
@@ -179,6 +220,7 @@ Halo, saya ingin memesan layanan studio. Berikut detail pemesanan saya:
 🗓️ Tanggal Pemotretan: _${date}_  
 ⏰ Selesai Pemotretan: _${endTime}_  
  DP Booking: *${dpOption}*  
+💸 Total Harga: *${totalPrice}*  
 
 💰 *Metode Pembayaran*  
 ${paymentDetail}
