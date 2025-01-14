@@ -200,11 +200,11 @@ form.addEventListener('submit', function (event) {
     // Detail metode pembayaran berdasarkan pilihan
     let paymentDetail = '';
     if (paymentMethod === 'DANA') {
-        paymentDetail = '📱 *DANA*: 085659838977 (Asep Surahman Sulaeman)';
+        paymentDetail = '*DANA*: 085659838977 (Asep Surahman Sulaeman)';
     } else if (paymentMethod === 'BRI') {
-        paymentDetail = '🏦 *BRI*: 1234567890 (Asep Surahman Sulaeman)';
+        paymentDetail = '*BRI*: 1234567890 (Asep Surahman Sulaeman)';
     } else if (paymentMethod === 'Mandiri') {
-        paymentDetail = '🏦 *Mandiri*: 0987654321 (Asep Surahman Sulaeman)';
+        paymentDetail = '*Mandiri*: 0987654321 (Asep Surahman Sulaeman)';
     }
 
     // Format pesan untuk WhatsApp
@@ -214,18 +214,19 @@ Halo, saya ingin memesan layanan studio. Berikut detail pemesanan saya:
 
 ✨ *Detail Booking*  
  Nama: _${name}_  
-📞 Nomor Telepon: _${phone}_  
-💼 Layanan: *${service}*  
+ Nomor Telepon: _${phone}_  
+ Layanan: *${service}*  
  Detail Layanan: _${subService}_  
 🗓️ Tanggal Pemotretan: _${date}_  
 ⏰ Selesai Pemotretan: _${endTime}_  
- DP Booking: *${dpOption}*  
-💸 Total Harga: *${totalPrice}*  
+ DP Booking: *${dpOption}* 
+ 
+ Total Harga: *${totalPrice}*  
 
 💰 *Metode Pembayaran*  
 ${paymentDetail}
 
-📢 Setelah pembayaran, mohon kirimkan *bukti pembayaran* ke WhatsApp kami di nomor 📞 *+6285659838977*.  
+📢 Setelah melakukan pembayaran, mohon kirimkan *bukti pembayaran* ke WhatsApp kami.  
 Terima kasih banyak atas kepercayaan Anda! 😊🙏
     `.trim();
 
