@@ -93,10 +93,10 @@
 
         // Sub-service options based on main service
         const subServiceOptions = {
-            "Personal": ["Foto Personal", "Pas Foto"],
+            "Personal": ["Pas Foto", "Foto Personal"],
             "Paket Wedding": ["Paket Prawedding Indoor", "Paket Prawedding Outdoor", "Paket Wedding"],
-            "Paket Group": ["Paket Couple", "Bestie", "Paket Group", "Paket Family"],
-            "Graduation": ["Paket Graduation"]
+            "Paket Group": ["Couple", "Bestie", "Paket Group", "Paket Family"],
+            "Graduation": ["Pilih Layanan", "Paket Graduation"]
         };
 
         // Event listener to update sub-service options dynamically
@@ -127,7 +127,7 @@
             const startTime = new Date(this.value);
 
             if (!isNaN(startTime)) {
-                const endTime = new Date(startTime.getTime() + 30 * 60000); // Add 30 minutes
+                const endTime = new Date(startTime.getTime() + 10 * 60000); // Add 30 minutes
                 const formattedEndTime = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 endTimeInput.value = formattedEndTime;
             } else {
@@ -146,37 +146,68 @@
     </script>
 
 <script>// Harga per layanan
-    const pricing = {
-        "Foto Personal": 20000, // 20 ribu
-        "Bestie": 30000,        // 30 ribu
-        "Paket Group": 10000,   // 10 ribu per orang
-        "Paket Family": 50000   // 50 ribu
-    };
-    
-    // Event listener untuk menghitung harga total
-    subServiceDropdown.addEventListener('change', function () {
-        const selectedSubService = this.value;
-    
-        let totalPrice = 0;
-    
-        if (selectedSubService === "Foto Personal") {
-            totalPrice = pricing["Foto Personal"];
-        } else if (selectedSubService === "Bestie") {
+   const pricing = {
+    "Foto Personal": 20000, // 20 ribu
+    "Couple": 30000,        // 30 ribu untuk 2 orang
+    "Bestie": 30000,        // 30 ribu untuk 2 orang
+    "Paket Group": 10000,   // 10 ribu per orang
+    "Paket Family": 50000,  // 50 ribu untuk 3 orang pertama
+    "Paket Graduation": 50000 // 50 ribu untuk 3 orang pertama
+};
+
+// Event listener untuk menghitung harga total
+subServiceDropdown.addEventListener('change', function () {
+    const selectedSubService = this.value;
+
+    let totalPrice = 0;
+
+    if (selectedSubService === "Foto Personal") {
+        totalPrice = pricing["Foto Personal"];
+    } else if (selectedSubService === "Couple") {
+        // Langsung tetapkan harga paket Couple tanpa prompt
+        totalPrice = pricing["Couple"];
+    } else if (selectedSubService === "Bestie") {
+        // Paket Bestie hanya valid untuk 2 orang
+        const bestieSize = prompt("Masukkan jumlah orang (harus 2 orang):");
+        if (bestieSize == 2) {
             totalPrice = pricing["Bestie"];
-        } else if (selectedSubService === "Paket Group") {
-            const groupSize = prompt("Masukkan jumlah orang dalam grup (minimal 3 orang):");
-            if (groupSize >= 3) {
-                totalPrice = groupSize * pricing["Paket Group"];
-            } else {
-                alert("Jumlah orang dalam grup harus minimal 3.");
-            }
-        } else if (selectedSubService === "Paket Family") {
-            totalPrice = pricing["Paket Family"];
+        } else {
+            alert("Paket Bestie hanya untuk 2 orang.");
         }
-    
-        // Tampilkan harga di input total price
-        document.getElementById('total-price').value = `Rp ${totalPrice.toLocaleString()}`;
-    });
+    } else if (selectedSubService === "Paket Group") {
+        const groupSize = prompt("Masukkan jumlah orang dalam grup (minimal 3 orang):");
+        if (groupSize >= 3) {
+            totalPrice = groupSize * pricing["Paket Group"];
+        } else {
+            alert("Jumlah orang dalam grup harus minimal 3.");
+        }
+    } else if (selectedSubService === "Paket Family") {
+        const familySize = prompt("Masukkan jumlah anggota keluarga (minimal 3 orang):");
+        if (familySize >= 3) {
+            // Perhitungan Paket Family: 50 ribu untuk 3 orang pertama, +10 ribu untuk setiap orang tambahan
+            totalPrice = pricing["Paket Family"] + ((familySize - 3) * 10000);
+        } else {
+            alert("Jumlah anggota keluarga harus minimal 3.");
+        }
+    } else if (selectedSubService === "Paket Graduation") {
+        const graduationSize = prompt("Masukkan jumlah orang dalam paket graduation:");
+        if (graduationSize > 0) {
+            // Perhitungan Paket Graduation: 50 ribu untuk 3 orang pertama, +10 ribu untuk setiap orang tambahan
+            totalPrice = pricing["Paket Graduation"];
+            if (graduationSize > 3) {
+                totalPrice += (graduationSize - 3) * 10000; // Tambah 10 ribu per orang tambahan
+            }
+        } else {
+            alert("Jumlah orang harus lebih dari 0.");
+        }
+    }
+
+
+    // Tampilkan harga di input total price
+    document.getElementById('total-price').value = `Rp ${totalPrice.toLocaleString()}`;
+});
+
+
     </script>
 
     
